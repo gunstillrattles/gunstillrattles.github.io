@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Lost in Midgard</title>
+    <link rel="icon" type="image/x-icon" href="ico.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <style>
+        :root {
+            --accent-color: #ff0055;
+            --bg-dark: #050505;
+            --glass-bg: rgba(10, 10, 10, 0.75);
+            --glass-border: rgba(255, 0, 85, 0.2);
+        }
+
+        * { cursor: none !important; }
+
+        body {
+            margin: 0;
+            background: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #1a050a 0%, #050505 100%);
+            font-family: 'JetBrains Mono', monospace;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        #cursor {
+            width: 8px; height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 15px var(--accent-color), 0 0 30px var(--accent-color);
+            transition: transform 0.1s ease-out;
+            transform: translate(-50%, -50%);
+        }
+
+        .error-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 50px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+            z-index: 1;
+            transform-style: preserve-3d;
+        }
+
+        .error-code {
+            font-size: 6rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--accent-color);
+            text-shadow: 0 0 20px var(--accent-color);
+            animation: glitch 1s linear infinite;
+        }
+
+        .error-msg {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 20px 0 30px 0;
+            opacity: 0.8;
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .home-btn:hover {
+            background: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%; pointer-events: none; z-index: 10;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: 2px 0 #ff0055, -2px 0 #00ffff; }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); text-shadow: -2px 0 #ff0055, 2px 0 #00ffff; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+<div id="cursor"></div>
+<div class="scanlines"></div>
+
+<div class="error-card" data-tilt data-tilt-max="15">
+    <h1 class="error-code">404</h1>
+    <p class="error-msg">Signal lost in the void</p>
+    <a href="index.html" class="home-btn" onmouseenter="playSfx('hover')" onclick="playSfx('click')">
+        <i class="fas fa-home"></i> Return to Midgard
+    </a>
+</div>
+
+<script>
+    const sfx = {
+        hover: new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'),
+        click: new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3')
+    };
+    sfx.hover.volume = 0.2;
+    sfx.click.volume = 0.4;
+
+    function playSfx(type) {
+        sfx[type].currentTime = 0;
+        sfx[type].play().catch(() => {});
+    }
+
+    particlesJS('particles-js', {
+        "particles": {
+            "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+            "color": { "value": "#ff0055" },
+            "opacity": { "value": 0.3, "random": true },
+            "size": { "value": 2, "random": true },
+            "line_linked": { "enable": true, "distance": 150, "color": "#ff0055", "opacity": 0.1, "width": 1 },
+            "move": { "enable": true, "speed": 1.5, "direction": "none" }
+        },
+        "interactivity": {
+            "events": { "onhover": { "enable": true, "mode": "grab" } }
+        },
+        "retina_detect": true
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        const cursor = document.getElementById('cursor');
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    VanillaTilt.init(document.querySelector(".error-card"), {
+        max: 15, speed: 1000, glare: true, "max-glare": 0.1,
+    });
+</script>
+</body>
+</html>
